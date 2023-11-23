@@ -3,9 +3,9 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 import '../../details/details.dart';
-
-// class HomePage extends StatelessWidget {
-//   const HomePage({super.key});
+import '../widget/popular_movie.dart';
+import '../widget/ternd_movie.dart';
+import '../widget/top_movie.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,10 +13,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
-
+  List trendyMovie = [];
+  List topMovie = [];
   List popularPeople = [];
-  List detailsPeople = [];
-
 
   final String api_key = "70b7c391b11bbc6113f65a8c3c1c415b";
   final String acess_taken =
@@ -31,10 +30,14 @@ class _HomePage extends State<HomePage> {
   getMoview() async {
     TMDB tmdbWithCustomLogs = TMDB(ApiKeys(api_key, acess_taken),
         logConfig: ConfigLogger(showLogs: true, showErrorLogs: true));
+
+    Map trendMovie = await tmdbWithCustomLogs.v3.trending.getTrending();
+    Map topResult = await tmdbWithCustomLogs.v3.movies.getTopRated();
     Map popularResult = await tmdbWithCustomLogs.v3.people.getPopular();
 
-
     setState(() {
+      trendyMovie = trendMovie["results"];
+      topMovie = topResult["results"];
       popularPeople = popularResult["results"];
     });
   }
@@ -46,94 +49,17 @@ class _HomePage extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.black12,
         shadowColor: Colors.grey,
-        title: Text("🎬  Movie App "),
+        title: Text("🎬  Movie List "),
       ),
-      body:SafeArea(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15),
-                    child: Text('popular people:',
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                  SizedBox(height: 20),
-                  GridView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: popularPeople.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.8,
-                        crossAxisSpacing: 15,
-                        mainAxisSpacing: 15,
-                      ),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => DetailsScreen()));
 
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DetailsScreen(
-                                      name: popularPeople[index]["name"],
-                                      poster:
-                                      "https://image.tmdb.org/t/p/w500" +
-                                          popularPeople[index]["profile_path"],
-                                      // desc: popularPeople[index]["biography"],
-                                      // vote: popularPeople[index]["gender"]
-                                      //     .toString(),
-                                      // lunch: popularPeople[index]["birthday"],
-                                    )));
-                          },
-                          child: Container(
-                            width: 140,
-                            child: Column(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        'https://image.tmdb.org/t/p/w500' +
-                                            popularPeople[index]['profile_path'],
-                                      ),
-                                    ),
-                                  ),
-                                  height: 200,
-                                ),
-                                SizedBox(height: 15),
-                                Container(
-                                  child: Text(
-                                    popularPeople[index]['name']
-                                    ,
-                                    style: TextStyle(
-                                        fontSize: 18, color: Colors.white),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      })
-                ],
-              ),
-            ),
-          ),
-        ),
-      )
+      body: ListView(
+
+        children: [
+          TrendyMovie(trend:trendyMovie),
+          TopMovie(top: topMovie),
+          PopularMovie(popular: popularPeople,)
+        ],
+      ),
     );
   }
 }
