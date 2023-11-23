@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../model/details_model.dart';
+import 'package:movie_task/screens/ui/details/details_people.dart';
 import '../../details/details.dart';
 
 class PopularMovie extends StatelessWidget {
@@ -29,11 +28,17 @@ class PopularMovie extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) =>
-                        //           DetailsPeople()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  DetailsPeople(
+                                    name: popular[index]["name"],
+                                    poster:
+                                    "https://image.tmdb.org/t/p/w500" +
+                                        popular[index]["profile_path"],
+
+                                  )));
                       },
                       child: Container(
                         width: 150,

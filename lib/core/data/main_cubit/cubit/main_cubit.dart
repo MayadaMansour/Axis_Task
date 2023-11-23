@@ -1,10 +1,9 @@
 
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_task/screens/model/people_model.dart';
 
+import '../../../model/people_model.dart';
 import '../../remote/dio_helper.dart';
 
 part 'main_state.dart';
