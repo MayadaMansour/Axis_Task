@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class DetailsPeople extends StatelessWidget {
-  final String? name, desc, banner, poster, vote, lunch;
+  final String? name, desc, work, poster, birth, lunch;
 
   const DetailsPeople(
       {Key? key,
       this.name,
       this.desc,
-      this.banner,
+      this.work,
       this.poster,
-      this.vote,
+      this.birth,
       this.lunch})
       : super(key: key);
 
@@ -44,7 +44,10 @@ class DetailsPeople extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.only(top: 2, left: 20),
                         child: Text(
-                          "Acting",
+                           // "Acting"
+                          birth!
+
+                          ,
                           maxLines: 10,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -56,7 +59,7 @@ class DetailsPeople extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.only(left: 20),
                         child: Text(
-                          "Concord, California, USA",
+                          work!,
                           maxLines: 10,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(

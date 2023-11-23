@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:movie_task/screens/ui/details/details_people.dart';
+import '../../../../core/model/people_model.dart';
 import '../../details/details.dart';
 
 class PopularMovie extends StatelessWidget {
-  final List popular;
+  final List popularDetails;
 
-  const PopularMovie({Key? key, required this.popular}) : super(key: key);
+
+
+
+  const PopularMovie({Key? key, required this.popularDetails}) : super(key: key);
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +32,7 @@ class PopularMovie extends StatelessWidget {
               height: 250,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: popular.length,
+                  itemCount: popularDetails.length,
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
@@ -33,10 +41,12 @@ class PopularMovie extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) =>
                                   DetailsPeople(
-                                    name: popular[index]["name"],
+                                    name: popularDetails[index]["name"],
                                     poster:
                                     "https://image.tmdb.org/t/p/w500" +
-                                        popular[index]["profile_path"],
+                                        popularDetails[index]["profile_path"],
+                                    birth: popularDetails[index]["gender"].toString(),
+                                     work: popularDetails[index]["known_for_department"],
 
                                   )));
                       },
@@ -49,7 +59,7 @@ class PopularMovie extends StatelessWidget {
                                 image: DecorationImage(
                                   image: NetworkImage(
                                     'https://image.tmdb.org/t/p/w500' +
-                                        popular[index]['profile_path'],
+                                        popularDetails[index]['profile_path'],
                                   ),
                                 ),
                               ),
@@ -58,8 +68,8 @@ class PopularMovie extends StatelessWidget {
                             SizedBox(height: 5),
                             Container(
                               child: Text(
-                                popular[index]['name'] != null
-                                    ? popular[index]['name']
+                                popularDetails[index]['name'] != null
+                                    ? popularDetails[index]['name']
                                     : 'Loading',
                                 style: TextStyle(
                                     fontSize: 15, color: Colors.white),
@@ -72,6 +82,11 @@ class PopularMovie extends StatelessWidget {
                   }))
         ],
       ),
+
     );
   }
+
+
+
+
 }

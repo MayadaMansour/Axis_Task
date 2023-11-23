@@ -57,7 +57,7 @@ class _HomePage extends State<HomePage> {
         children: [
           TrendyMovie(trend:trendyMovie),
           TopMovie(top: topMovie),
-          PopularMovie(popular: popularPeople,)
+          PopularMovie(popularDetails: popularPeople,)
         ],
       ),
     );
